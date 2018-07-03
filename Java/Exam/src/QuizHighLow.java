@@ -17,7 +17,7 @@ public class QuizHighLow {
 
 		while(yn.equals("y"))
 		{
-			int nCom = nCom =random.nextInt(101);
+			int nCom = random.nextInt(101);
 			System.out.println("몇이라고 생각합니까? <0 to 100>");
 			nUsr = s.nextInt();
 			
