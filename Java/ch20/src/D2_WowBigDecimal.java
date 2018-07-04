@@ -13,6 +13,7 @@ public class D2_WowBigDecimal {
 		System.out.printf("덧셈 결과: %4.2f\n" , (dd1+dd2));
 		System.out.printf("곱셈 결과: %4.2f\n" , (dd1*dd2));
 		System.out.println("덧셈 결과: " + d1.add(d2));
+		System.out.println("덧셈 결과1: " + d1 + d2);
 		System.out.println("곱셈 결과: " + d1.multiply(d2));
 
 	}
