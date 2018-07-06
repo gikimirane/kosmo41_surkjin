@@ -4,12 +4,13 @@ import java.util.Comparator;
 import java.util.List;
 
 class StrComp implements Comparator<String>{
+	@Override
 	public int compare(String s1, String s2) {
-		return s1.compareToIgnoreCase(s2);
+		return s1.length()-s2.length();
 	}
 }
 
-public class D2_StringComparator {
+public class C1_SortComprator {
 
 	public static void main(String[] args) {
 
@@ -20,8 +21,6 @@ public class D2_StringComparator {
 		
 		StrComp cmp = new StrComp(); //정렬과 탐색의 기준
 		Collections.sort(list, cmp);
-		int idx = Collections.binarySearch(list, "Robot", cmp);
-		System.out.println(list.get(idx));
+		System.out.println(list);
 	}
-
 }
