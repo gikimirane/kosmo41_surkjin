@@ -21,16 +21,16 @@ public class C2_FileRandomAcess {
 										StandardOpenOption.WRITE,
 										StandardOpenOption.CREATE)){
 
-			wb.flip();
+			wb.flip(); //버퍼 포지선 0으로 이동
 			fc.write(wb);
 			
 			ByteBuffer rb = ByteBuffer.allocate(1024);
 			fc.position(0);
 			fc.read(rb);
 			
-			rb.flip();
+			rb.flip();//=rb.position(0);
 			System.out.println(rb.getInt());
-			rb.position(Integer.BYTES*2);
+			rb.position(Integer.BYTES*2);  //Integer.BYTES: int형 정수의 크기에 대한 상수(=4)
 			System.out.println(rb.getDouble());
 			System.out.println(rb.getDouble());
 
