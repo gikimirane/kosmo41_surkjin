@@ -1,4 +1,4 @@
-package com.study.pattern03.strategy2;
+package com.study.pattern02.strategy2;
 
 public class Missile implements Weapon {
 

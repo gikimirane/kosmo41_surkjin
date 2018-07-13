@@ -2,7 +2,7 @@
  * Simple Factory Pattern
  */
 
-package com.study.pattern.factory1;
+package com.study.pattern03.simple_factory1;
 
 public class Main {
 

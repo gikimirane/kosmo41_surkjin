@@ -1,4 +1,4 @@
-package com.study.pattern03.strategy2;
+package com.study.pattern02.strategy2;
 
 public class GameCharacter {
 	//접근점(각종 무기의 단일통로)
