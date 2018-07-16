@@ -28,9 +28,9 @@ public class Sender5 extends Thread{
 			while (out != null) {
 				try {
 					String s2 = s.nextLine();
-					
+					if(s2.equals("") || s2.length()==0)	continue;
 					if(s2.equalsIgnoreCase("q")) {
-						//out.println(s2);
+						System.out.println("Bye~~");
 						break;
 					}else { 
 						String[] splt = s2.split(" ");
@@ -48,6 +48,7 @@ public class Sender5 extends Thread{
 					}
 				}catch(Exception e) {
 					e.printStackTrace();
+					break;
 				}
 			}
 			out.close();
@@ -57,3 +58,5 @@ public class Sender5 extends Thread{
 		}	
 	}
 }
+
+

@@ -1,20 +1,11 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class MultiServer6 {
-	
 	ServerSocket serverSochet = null;
 	Socket socket = null;
 	Map<String, PrintWriter> clientMap;
-	String talk_nm = "";
 	
 	public MultiServer6() {
 		clientMap = new HashMap<String, PrintWriter>();
@@ -45,7 +36,7 @@ public class MultiServer6 {
 	}
 		
 	public void sendAllMsg(String msg) {
-		
+	
 		Iterator<String> it = clientMap.keySet().iterator();
 		
 		while(it.hasNext()) {
@@ -80,7 +71,7 @@ public class MultiServer6 {
 			String name = "";
 			try {
 				name = in.readLine();
-				sendAllMsg(name + "님이 입장하셨습니다.");
+				sendAllMsg(name + "님이 입장하셨습니다.");				
 				clientMap.put(name, out);
 				System.out.println("현재 접속자 수는 " + clientMap.size() + "명 입니다.");
 
@@ -88,11 +79,9 @@ public class MultiServer6 {
 				while(in != null) {
 					s = in.readLine();
 					System.out.println(s);
-					//if(s == null) break;
-					//if(s.equalsIgnoreCase("q")) break;
 
 					if(s.equals(name+"=>"+"/list")) 	showList(name);
-					else if(s.substring(name.length()+2, name.length()+2+3).equals("/to"))	
+					else if(s.length()>name.length()+5 && s.substring(name.length()+2, name.length()+2+3).equals("/to"))	
 														sendToOne(name, s);
 					else								sendAllMsg(s);
 				}
@@ -124,13 +113,11 @@ public class MultiServer6 {
 	
 	public void sendToOne(String nm, String s) {
 		
-		String[] str = s.substring(nm.length()+2).split(" ");
+		String[] s1 = s.substring(nm.length()+2).split(" ");
 		
-		PrintWriter n_out = (PrintWriter)clientMap.get(str[1]);
-		String str1 = "";
-
-		str1 = "(귓속말)" + nm + "=>" + s.substring(nm.length()+2+ str[0].length()+str[1].length()+2);		
-		n_out.println(str1) ;	
+		PrintWriter out = (PrintWriter)clientMap.get(s1[1]);
+		String s2 = "(귓속말)" + nm + "=>" + s.substring(nm.length()+2+ s1[0].length()+s1[1].length()+2);		
+		out.println(s2) ;	
 	}
 	
 	public static void main(String[] args){

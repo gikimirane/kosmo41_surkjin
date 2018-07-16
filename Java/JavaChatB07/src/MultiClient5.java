@@ -8,7 +8,7 @@ public class MultiClient5 {
 
 		System.out.println("이름을 입력해 주세요.");
 		Scanner s = new Scanner(System.in);
-		String s_name = s.nextLine();
+		String name = s.nextLine();
 					
 		try {
 			String ServerIP = "localhost";
@@ -18,7 +18,7 @@ public class MultiClient5 {
 			Thread receiver = new Receiver5(socket);
 			receiver.start();
 			
-			Thread sender = new Sender5(socket, s_name);
+			Thread sender = new Sender5(socket, name);
 			sender.start();
 				
 		}catch(Exception e) {
@@ -27,3 +27,4 @@ public class MultiClient5 {
 	}
 
 }
+
