@@ -94,3 +94,8 @@ hs_err_pid*
 
 # End of https://www.gitignore.io/api/java,eclipse
 Simple.txt
+Java/ch32/data.dat
+Java/ch32/src.txt
+*.txt
+*.dat
+*.bin
