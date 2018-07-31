@@ -24,30 +24,28 @@ public class Sender extends Thread{
 	public void run() {
 		Scanner s = new Scanner(System.in);
 		try {
-			out.println(name);
+			out.println(URLEncoder.encode(name, "UTF-8"));
 			while (out != null) {
 				try {
 					String s2 = s.nextLine();
-					if(s2.equals("") || s2.length()==0)	continue;
+					
 					if(s2.equalsIgnoreCase("q")) {
 						System.out.println("Bye~~");
-						break;
-					}else { 
+						break;}
+					else if(s2.equals("") || s2.length()==0)	continue;
+					else { 						
 						String[] splt = s2.split(" ");
 						
 						if(splt[0].equals("/to") && splt.length>2 && !talkToOne) 	
-								out.println(s2);
-							//	out.println(name + "=>" + s2);
+								out.println(URLEncoder.encode(s2, "UTF-8"));
 						else if(splt[0].equals("/to") && splt.length == 2 && !talkToOne) {	
 								talkToOne = true;
 								tName = splt[1];
 						}
 						else if(splt[0].equals("/to") && splt.length == 2 && talkToOne)	
 								talkToOne = false;
-						else if(talkToOne)	out.println("/to " + tName + " " + s2);
-		//				else if(talkToOne)	out.println(name + "=>" + "/to " + tName + " " + s2);
-						else	out.println(s2);
-						//else	out.println(name + "=>" + s2);
+						else if(talkToOne)	out.println(URLEncoder.encode("/to " + tName + " " + s2, "UTF-8"));
+						else	out.println(URLEncoder.encode(s2, "UTF-8"));
 					}
 				}catch(Exception e) {
 					e.printStackTrace();
@@ -58,6 +56,6 @@ public class Sender extends Thread{
 			socket.close();	
 		}catch(Exception e) {
 			e.printStackTrace();
-		}	
+		}		
 	}
 }

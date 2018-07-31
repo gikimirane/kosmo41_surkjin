@@ -45,7 +45,7 @@ public class ConnectionPool {
     public static Connection getConnection(String env)
        throws SQLException
     {
-        System.out.println("Request connection for " + env);
+        //System.out.println("Request connection for " + env);
         if (ods == null) {
             throw new SQLException("OracleDataSource is null.");
         }

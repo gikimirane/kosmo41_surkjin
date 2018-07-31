@@ -25,7 +25,7 @@ public class QuizBaseball {
 		
 		System.out.println("숫자로 하는 야구게임 시작");
 
-		for(int i=1; s<3;i++) 
+		for(int i=1; s<3 && b<4; i++) 
 		{
 			System.out.println("세자리 숫자를 입력하세요." + "(" + i +"회)");
 			int nUsr = ins.nextInt();
@@ -44,7 +44,8 @@ public class QuizBaseball {
 			
 			System.out.println(s + " Strike " + b + " Ball");
 		}
-		System.out.println("You Win!!!!");
+		if(s==3) System.out.println("You Winner!");
+		else	 System.out.println("You Loser!");
 	}
 
 }
