@@ -17,11 +17,11 @@ public class QuizThreeByThree1 {
 		Scanner s = new Scanner(System.in);	
 				
 		brd = suffleBrd();
-		prnBoard(brd);
+		prnBoards(brd);
 		
 		while(ins) {
-			prnBoard(mvBoard(prnInput(s), brd));
-			//System.out.println(ins);
+			prnBoards(mvBoard(prnInput(s), brd));
+			System.out.println(ins);
 		}
 		
 	}
@@ -108,7 +108,7 @@ public class QuizThreeByThree1 {
 		return brd;
 	}
 	
-	static void prnBoard(String[][] brd) {
+	static void prnBoards(String[][] brd) {
 	
 		if(ins == false)	return;
 		clearScreen();
@@ -134,7 +134,7 @@ public class QuizThreeByThree1 {
 		for(int i=0; i<brd.length; i++) 
 			for(int j=0; j<brd.length; j++)
 				if(!(brd[i][j].equals(okBrd[i][j]))) return; 
-		prnBoard(brd);
+		prnBoards(brd);
 		System.out.println();
 		System.out.println("정답입니다. 게임을 종료합니다.");
 		System.out.println("Good Bye~");		
