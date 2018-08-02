@@ -37,13 +37,16 @@ public class Sender extends Thread{
 						String[] splt = s2.split(" ");
 						
 						if(splt[0].equals("/to") && splt.length>2 && !talkToOne) 	
-								out.println(URLEncoder.encode(s2, "UTF-8"));
+							out.println(URLEncoder.encode(s2, "UTF-8"));
 						else if(splt[0].equals("/to") && splt.length == 2 && !talkToOne) {	
-								talkToOne = true;
-								tName = splt[1];
+							talkToOne = true;
+							tName = splt[1];
+							System.out.println("귓속말이 설정 되었습니다.");
 						}
-						else if(splt[0].equals("/to") && splt.length == 2 && talkToOne)	
-								talkToOne = false;
+						else if(splt[0].equals("/to") && splt.length == 2 && talkToOne)	{
+							talkToOne = false;
+							System.out.println("귓속말이 해제 되었습니다.");	
+						}
 						else if(talkToOne)	out.println(URLEncoder.encode("/to " + tName + " " + s2, "UTF-8"));
 						else	out.println(URLEncoder.encode(s2, "UTF-8"));
 					}
