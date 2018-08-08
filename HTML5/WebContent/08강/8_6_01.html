@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+		h3~div{
+			font-size:10px;
+			color:orange;
+		}
+		h3+div{
+			font-size:20px;
+			font-weight:bold;
+			color:blue;
+		}
+		#title~div{
+			width:300px;
+			background-color:yellow;
+		}
+		.hoverSel:hover{
+			font-size:2em;
+			color:#ff0000;
+			font-weight:bold;
+		}
+		input:checked{
+			font-size:2em;
+			background:#ffffff;
+		}
+		input{
+			font-size:1em;
+			background:#ffffff;
+		}
+		input:focus{
+			font-size:2em;
+			background:#dddddd;
+		}
+</style>
+</head>
+<body>
+	<!-- 
+	[동위선택자]
+	선택자A+선택자B: 선택자A 바로뒤에 위치하는 선택자B를 선택
+    선택자A~선택자B: 
+	 -->
+	<h3 id="title">동위 선택자(+, ~)</h3>
+	<div>div_01</div>
+	<div>div_02</div>
+	<div>div_03</div>
+	<div>div_04</div>
+	<div>div_05</div>
+	
+	<br />
+	<div class='hoverSel'>반응 선택자</div>
+	<br />
+	<div>
+		아이디: <input type='text'>
+	</div>
+</body>
+</html>

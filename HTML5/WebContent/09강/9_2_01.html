@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+	#display_none div:nth-child(1){
+		width: 100px;
+		height:100px;
+		background-color:#ff0000;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+		display:inline;
+	}
+	#display_none div:nth-child(2){
+		width: 100px;
+		height:100px;
+		background-color:#00ff00;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+		display:none;
+	}
+	#display_none div:nth-child(3){
+		width: 100px;
+		height:100px;
+		background-color:#0000ff;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+		display:block;
+	}
+	
+	#visibility_hidden div:nth-child(1){
+		width: 100px;
+		height:100px;
+		background-color:#ff0000;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+	}
+	#visibility_hidden div:nth-child(2){
+		width: 100px;
+		height:100px;
+		background-color:#00ff00;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+		visibility:hidden;
+	}
+	#visibility_hidden div:nth-child(3){
+		width: 100px;
+		height:100px;
+		background-color:#0000ff;
+		clolor:#ffffff;
+		font-wight:bold;
+		text-align:center;
+	}
+</style>
+</head>
+<body>
+	<div id="display_none">
+		<div>
+			content1
+		</div>
+		<div>
+			content2
+		</div>
+		<div>
+			content3
+		</div>
+	</div>
+	<hr>
+	
+	<div id="visibility_hidden">
+		<div>
+			content1
+		</div>
+		<div>
+			content2
+		</div>
+		<div>
+			content3
+		</div>
+	</div>
+</body>
+</html>

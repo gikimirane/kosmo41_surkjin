@@ -45,7 +45,6 @@ public class MultiServer {
 		
 		try {
 			String sql = "select count(*) from van_word where mbr_nm= '$system$' and word = ?";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			for(int i=0; i<str.length; i++) {
 				pstmt.setString(1, str[i]);
@@ -55,11 +54,11 @@ public class MultiServer {
 				rs.close();
 				if(banWord > 0) {
 					clientMap.get(name).println(URLEncoder.encode(str[i] + "는 금칙어입니다.", "UTF-8"));
-					pstmt.close(); //con.close();
+					pstmt.close(); 
 					return;
 				}
 			} 
-			pstmt.close(); //con.close();
+			pstmt.close();
 		}catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}			
@@ -71,7 +70,6 @@ public class MultiServer {
 				mName = it.next();
 				//개인금칙어 처리
 				String sql = "select count(*) from van_word where mbr_nm='"+mName+"' and word =?";
-				//Connection con = ConnectionPool.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				for(int i=0; i<str.length; i++) {
 					banWord = 0;				
@@ -88,12 +86,11 @@ public class MultiServer {
 				//대화차단자 처리
 				int blk_cnt = 0;
 				sql = "select count(*) from block_list where blk_nm='"+name+"' and mbr_nm='"+mName+"'";
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 				rs.next();
 				blk_cnt = rs.getInt(1);
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close(); 
 				if(blk_cnt == 1)	continue;
 				
 				//대화방참여자인 경우 //초대중인 사람 //게임참여자
@@ -101,13 +98,12 @@ public class MultiServer {
 				String call_f="", game_f="";
 				sql = "select a.room_no, b.room_no, b.call_f, b.game_f "
 					+ "from member_nm a, member_nm b where a.mbr_nm='"+name+"' and b.mbr_nm='"+mName+"'";
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				if(rs.next()==true) { 	room_no1 = rs.getInt(1); room_no2 = rs.getInt(2); 
 										call_f = rs.getString(3); game_f = rs.getString(4);
-										rs.close(); pstmt.close();} //con.close();}
-				else {					rs.close(); pstmt.close(); //con.close();
+										rs.close(); pstmt.close();} 
+				else {					rs.close(); pstmt.close(); 
 										continue;}
 				
 				if(room_no1 != room_no2)	continue;
@@ -141,7 +137,6 @@ public class MultiServer {
 		
 		@Override
 		public void run() {
-//			//Connection con=null;
 			String name = "";
 			List<String> ls = Arrays.asList("/list","/ls", "/rls", "/lsd","/ls0","/lsw","/ls.","/my",
 					"/exit", "/ex" ,"/to", "/cd","/blk", "/ban","/out","/cap","/del","/call","/make",
@@ -149,12 +144,11 @@ public class MultiServer {
 			ls = new ArrayList<>(ls);
 			
 			try {
-				//con = ConnectionPool.getConnection();
 				String sql = "select sysdate from dual";
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 				rs.next(); System.out.println(rs.getDate(1) + " : " + con);
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close(); 
 				ConnectionPool.listCacheInfos();
 				
 				while(true) {
@@ -251,39 +245,35 @@ public class MultiServer {
 				clientMap.get(str[2]).println(URLEncoder.encode(name + " 님이 게임을 중단하셨습니다.", "UTF-8"));
 				String sql = "update member_nm set game_f='0', check_f='0', game_val=0, game_cnt=0, "
 						+ "ox_val='' where mbr_nm = ?"; 
-				//Connection	con = ConnectionPool.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, name);   pstmt.executeUpdate();
 				pstmt.setString(1, str[2]); pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				return;
 			}
 			String sql = "select check_f from member_nm where mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			
 			String chk_f="";
 			rs.next(); 	chk_f = rs.getString(1); 
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			
 			if(str[1].equalsIgnoreCase("n") && chk_f.equals("0")) {
 				clientMap.get(str[2]).println(URLEncoder.encode(name + " 님이 초대를 거절하셨습니다.", "UTF-8"));
 				sql = "update member_nm set game_f='0' where mbr_nm ='"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				return;
 			}
 			else if(str[1].equalsIgnoreCase("y") && chk_f.equals("0")) {
 				clientMap.get(str[2]).println(URLEncoder.encode("TicTacToe 게임 시작.", "UTF-8"));
 				clientMap.get(str[2]).println(URLEncoder.encode("잠시만 기다려주세요.", "UTF-8"));
 				sql = "update member_nm set check_f='1' where mbr_nm ='"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				prnBoard(name, brd, "X", 0);
 				return;
 			}
@@ -297,7 +287,6 @@ public class MultiServer {
 			
 			sql = "select a.ox_val, a.game_cnt, a.score, b.ox_val, b.game_cnt, b.score "
 				+ "from member_nm a, member_nm b where a.mbr_nm ='"+name+"' and b.mbr_nm ='"+str[2]+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			int m_cnt=0, u_cnt=0, m_sco=0, u_sco=0;
@@ -333,13 +322,12 @@ public class MultiServer {
 				}
 				sql = "update member_nm set game_val=0, check_f='0', game_cnt=0, ox_val=?, "
 					+ "score = score + ?, call_nm=? where mbr_nm = ?"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "O"); pstmt.setInt(2, 100); 
 				pstmt.setString(3, str[2]); pstmt.setString(4, name);   pstmt.executeUpdate();
 				pstmt.setString(1, "X"); pstmt.setInt(2,-100); 
 				pstmt.setString(3, name);pstmt.setString(4, str[2]); pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				clientMap.get(str[2]).println(URLEncoder.encode("다시 하시겠습니까? (y/n) ", "UTF-8"));
 			}else {
 				prnBoard(str[2], brd, u_ox.substring(0,1), 0);
@@ -347,10 +335,9 @@ public class MultiServer {
 				clientMap.get(name).println(URLEncoder.encode("상대방 차례입니다. 잠시만 기다려주세요.", "UTF-8"));
 				sql = "update member_nm set game_cnt=game_cnt+1, ox_val = ox_val||'"+str[1]+"' "
 						+ "where mbr_nm ='"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 			}
 		} catch (UnsupportedEncodingException | SQLException e) {
 			e.printStackTrace();
@@ -406,30 +393,27 @@ public class MultiServer {
 			if(str[1].equals("/ex") || str[1].equals("/exit")) {
 				clientMap.get(str[2]).println(URLEncoder.encode(name + " 님이 게임을 중단하셨습니다.", "UTF-8"));
 				String sql = "update member_nm set game_f='0', check_f='0', game_val=0, game_cnt=0 where mbr_nm = ?"; 
-				//Connection con = ConnectionPool.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, name);   pstmt.executeUpdate();
 				pstmt.setString(1, str[2]); pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				return;
 			}
 			String sql = "select check_f from member_nm where mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 				
 			String chk_f="";
 			rs.next();
 			chk_f = rs.getString(1);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			
 			if(str[1].equalsIgnoreCase("n") && chk_f.equals("0")) {
 				clientMap.get(str[2]).println(URLEncoder.encode(name + " 님이 초대를 거절하셨습니다.", "UTF-8"));
 				sql = "update member_nm set game_f='0' where mbr_nm ='"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				return;
 			}
 			else if(str[1].equalsIgnoreCase("y") && chk_f.equals("0")) {
@@ -439,10 +423,9 @@ public class MultiServer {
 				clientMap.get(name).println(URLEncoder.encode("서로 다른 세자리 자기 숫자를 입력하세요.", "UTF-8"));
 				clientMap.get(str[2]).println(URLEncoder.encode("서로 다른 세자리 자기 숫자를 입력하세요.", "UTF-8"));
 				sql = "update member_nm set check_f='1' where mbr_nm ='"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				return;
 			}
 			clearScreen(name);
@@ -466,15 +449,13 @@ public class MultiServer {
 			sql = "update member_nm "
 				+ "set game_val=decode(game_cnt, 0, to_number('"+str[1]+"'), game_val),"
 				+ "game_cnt=decode((select game_cnt from member_nm where mbr_nm = '"+str[2]+"'), 0, 1, game_cnt+1) "
-				+ "where mbr_nm='"+name+"'"; 
-			//con = ConnectionPool.getConnection();
+				+ "where mbr_nm='"+name+"'";
 			pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
-			pstmt.close(); ////con.close();
+			pstmt.close();
 		
 			sql = "select b.game_val, b.game_cnt, a.game_cnt, b.score, a.score from member_nm a, member_nm b "
 				+ "where a.mbr_nm = '"+name+"' and b.mbr_nm='"+str[2]+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 		
@@ -482,7 +463,7 @@ public class MultiServer {
 			rs.next();
 			u = rs.getInt(1); u_cnt = rs.getInt(2); m_cnt = rs.getInt(3);
 			u_score = rs.getInt(4); m_score = rs.getInt(5); 
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			if(u==0 || (u_cnt*m_cnt) < 2) { 
 				clientMap.get(name).println(URLEncoder.encode("상대방이 입력하기 전 입니다. 다시 입력하세요.", "UTF-8"));
 				return;
@@ -510,11 +491,10 @@ public class MultiServer {
 			
 				sql = "update member_nm set game_val=0, check_f='0', game_cnt=0, score = score + ?, "
 					+ "call_nm=? where mbr_nm = ?"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, 100); pstmt.setString(2, str[2]); pstmt.setString(3, name); pstmt.executeUpdate();
 				pstmt.setInt(1,-100); pstmt.setString(2, name); pstmt.setString(3, str[2]); pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				clientMap.get(str[2]).println(URLEncoder.encode("다시 하시겠습니까? (y/n) ", "UTF-8"));
 			}else clientMap.get(name).println(URLEncoder.encode("서로 다른 세자리 숫자를 입력하세요", "UTF-8"));
 		} catch (UnsupportedEncodingException | SQLException e) {
@@ -532,13 +512,12 @@ public class MultiServer {
 				return;}	
 			String sql ="select a.room_no, b.room_no, b.game_f from member_nm a, member_nm b "
 					+	"where a.mbr_nm = '"+name+"' and b.black_f='0' and b.mbr_nm = '"+str[1]+"'";	
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int myNo=0, toNo=0;
 			String game_f = "";
 			if(rs.next()) { 	myNo = rs.getInt(1); toNo = rs.getInt(2); game_f = rs.getString(3);
-								rs.close(); pstmt.close();} //con.close();}
+								rs.close(); pstmt.close();} 
 			else {	clientMap.get(name).println(URLEncoder.encode("상대방 이름을 확인하세요.", "UTF-8"));
 					return;}
 			
@@ -551,7 +530,6 @@ public class MultiServer {
 				return;
 			}
 			sql = "update member_nm set game_f = ?, call_nm = ?, ox_val =? where mbr_nm = ?"; 
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, game); pstmt.setString(2, str[1]); 
 			pstmt.setString(3, "o"); pstmt.setString(4, name); 
@@ -559,7 +537,7 @@ public class MultiServer {
 			pstmt.setString(1, game); pstmt.setString(2, name); 
 			pstmt.setString(3, "x"); pstmt.setString(4, str[1]); 
 			pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			if(game.equals("1")) 
 				clientMap.get(str[1]).println(URLEncoder.encode(name + " 님이 " + " 숫자로 하는 야구게임에 초대합니다. 수락하시겠습니까? (y/n)", "UTF-8"));
 			else
@@ -574,12 +552,11 @@ public class MultiServer {
 		String[] calls = {"0", " ", "0"};
 		try {
 			String sql ="select call_f, nvl(call_nm, ' '), game_f from member_nm where mbr_nm = '"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();			
 			rs.next(); 
 			calls[0] = rs.getString(1); calls[1] = rs.getString(2); calls[2] = rs.getString(3);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}	
@@ -591,7 +568,6 @@ public class MultiServer {
 			String sql ="select cap_nm, room_no, room_no||'.'||room_nm, "
 					+ "(select count(*) from member_nm b where a.room_no=b.room_no) " 
 					+ "from room_list a where a.cap_nm ='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int room_no=0, cnt = 0;
@@ -599,33 +575,30 @@ public class MultiServer {
 			rs.next(); 	
 			cap_nm = rs.getString(1); room_no = rs.getInt(2); 
 			room_nm = rs.getString(3); cnt = rs.getInt(4);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			if(!name.equals(cap_nm)) {
 				clientMap.get(name).println(URLEncoder.encode("방장만이 대화방을 폭파시킬 수 있습니다.", "UTF-8"));	return;
 			}
 			
 			String[] mbr_nm = new String[cnt-1];
 			sql = "select mbr_nm from member_nm where room_no = '"+room_no+"' and mbr_nm != '"+name+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			int i=0;
 			while(rs.next()) { mbr_nm[i] = rs.getString(1); i++;}
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			
 			for(i=0; i<cnt-1; i++)	outRoom(name, "/out " + mbr_nm[i], "del");
 			
 			sql = "update member_nm set room_no = 0 where mbr_nm = '"+name+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
-			pstmt.close(); ////con.close();
+			pstmt.close(); 
 			
 			sql = "delete from room_list where room_no = '"+room_no+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			int upCnt = pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			if(upCnt > 0) 	sendAllMsg(name, room_nm + " 방을 폭파시켰습니다.");			
 		} catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -644,7 +617,6 @@ public class MultiServer {
 					+	"from room_list a, member_nm b, member_nm c " 
 					+ 	"where a.room_no(+)=b.room_no "
 					+	"and c.black_f='0' and c.mbr_nm='"+str[1]+"' and b.mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int myNo=0, cNo=0;
@@ -663,10 +635,9 @@ public class MultiServer {
 				clientMap.get(name).println(URLEncoder.encode(str[1]+" 님이 다른 사람에게 초대받고 있습니다. 초대할 수 없습니다.", "UTF-8"));	return;}	
 			
 			sql = "update member_nm set call_f='1', call_nm = '"+name+"' where mbr_nm = '"+str[1]+"'";
-			//con = ConnectionPool.getConnection();
 			PreparedStatement upstmt = con.prepareStatement(sql);
 			int upCnt = upstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			if(upCnt > 0) clientMap.get(str[1]).println(URLEncoder.encode(name + " 님이 " + room_nm + " 방에 초대합니다. 수락하시겠습니까? (y/n)", "UTF-8"));
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
@@ -682,14 +653,13 @@ public class MultiServer {
 				String sql =  "select room_no, room_nm, fix_num-(select count(*) from member_nm a "
 							+ "where a.room_no=b.room_no) from room_list b "
 							+ "where room_no = (select room_no from member_nm where mbr_nm ='"+str[2]+"')";
-				//Connection con = ConnectionPool.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();
 				int room_no = 0, chk_no=1;
 				String room_nm = "";
 				rs.next();
 				room_no = rs.getInt(1); room_nm = rs.getString(2); chk_no = rs.getInt(3);
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close(); 
 				if(chk_no < 1) {
 					clientMap.get(str[2]).println(URLEncoder.encode("정원초과로 입장에 실패하셨습니다.", "UTF-8"));
 					clientMap.get(name).println(URLEncoder.encode("정원초과로 입장에 실패하셨습니다.", "UTF-8"));
@@ -700,10 +670,9 @@ public class MultiServer {
 				sendAllMsg(str[2], " 님이 입장하셨습니다.");
 				
 				sql = "update member_nm set room_no='"+room_no+"', call_f='0' where mbr_nm = '"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);				
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 			}else if(str[1].equalsIgnoreCase("n"))
 					clientMap.get(str[2]).println(URLEncoder.encode(name + " 님이 초대를 거절하셨습니다.", "UTF-8"));
 		} catch (SQLException | IOException e) {
@@ -723,15 +692,14 @@ public class MultiServer {
 					+	"from room_list a, member_nm b, member_nm c " 
 					+ 	"where a.room_no(+)=b.room_no "
 					+	"and b.mbr_nm='"+str[1]+"' and b.black_f='0' and c.mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int myNo=0, sNo=0;
 			String cap_nm = "";
 			if(rs.next()){cap_nm = rs.getString(1); sNo = rs.getInt(2); myNo = rs.getInt(3);
-						  rs.close(); pstmt.close();} //con.close();}
+						  rs.close(); pstmt.close();} 
 			else {	clientMap.get(name).println(URLEncoder.encode("상대방 이름을 확인하세요.", "UTF-8"));
-					rs.close(); pstmt.close(); //con.close();
+					rs.close(); pstmt.close(); 
 					return;}
 
 			if(!name.equals(cap_nm)) {
@@ -743,10 +711,9 @@ public class MultiServer {
 			}
 			sql = "update room_list set cap_nm = '"+str[1]+"' "
 				+ "where room_no = (select room_no from room_list where cap_nm = '"+name+"')";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			int upCnt = pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			if(upCnt > 0) 	sendAllMsg(str[1], "님이 방장이 되셨습니다.");
 			
 		} catch (SQLException | UnsupportedEncodingException e) {
@@ -766,7 +733,6 @@ public class MultiServer {
 					+	"from room_list a, member_nm b, member_nm c " 
 					+ 	"where a.room_no(+)=b.room_no "
 					+	"and b.mbr_nm='"+str[1]+"' and b.black_f='0' and c.mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int myNo=0, outNo=0;
@@ -774,9 +740,9 @@ public class MultiServer {
 			if(rs.next()) { 	
 				cap_nm = rs.getString(1); room_nm = rs.getString(2); 
 				outNo = rs.getInt(3); myNo = rs.getInt(4);
-				rs.close(); pstmt.close();} //con.close();}
+				rs.close(); pstmt.close();} 
 			else { 	clientMap.get(name).println(URLEncoder.encode("상대방 이름을 확인하세요.", "UTF-8"));
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close();
 				return;}
 			
 			if(myNo==0 || outNo==0) {
@@ -786,17 +752,15 @@ public class MultiServer {
 			}else if(!name.equals(cap_nm)) {
 				clientMap.get(name).println(URLEncoder.encode("방장만이 강퇴시킬 수 있습니다.", "UTF-8"));	return;}
 			sql = "update member_nm set room_no = 0 where mbr_nm = '"+str[1]+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			int upCnt = pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			
 			if(!check.equals("del")) {
 				sql = "insert into out_list values('"+str[1]+"', '"+myNo+"', '"+name+"')";
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 			}
 			if(upCnt > 0) {	
 				sendAllMsg(name, str[1]+"님을 강퇴시켰습니다.");
@@ -812,7 +776,6 @@ public class MultiServer {
 			String sql ="select mbr_nm, cap_nm, room_nm, a.room_no from member_nm a, room_list b "
 					+ 	"where a.room_no=b.room_no and black_f='0' "
 					+	"and a.room_no = (select room_no from member_nm where mbr_nm ='"+name+"')";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			String str = "", cap_nm="", room_nm="";
@@ -823,9 +786,9 @@ public class MultiServer {
 			if(str.length() > 2 && room_no > 0 && rs.getRow() > 0) {
 				clientMap.get(name).println(URLEncoder.encode("현재 " +room_nm.toString()+" 방에 참여 중입니다("+cnt+"명)-방장:"+cap_nm.toString(), "UTF-8"));
 				clientMap.get(name).println(URLEncoder.encode("["+str.substring(0, str.length()-2).toString() + "]", "UTF-8"));
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close(); 
 			}else {
-				rs.close(); pstmt.close(); //con.close();
+				rs.close(); pstmt.close(); 
 				waitlist(name);		
 			}
 		} catch (SQLException | UnsupportedEncodingException e) {
@@ -838,47 +801,43 @@ public class MultiServer {
 			String sql = "select a.room_no, nvl(b.room_nm, '대기방') " 
 					+	 "from member_nm a, room_list b " 
 					+    "where a.room_no=b.room_no(+) and mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int	room_no=0;
 			String room_nm="";
 			rs.next();
 			room_no = rs.getInt(1); room_nm = rs.getString(2);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			if(room_no == 0 && s.equals("1"))	
 				clientMap.get(name).println(URLEncoder.encode("현재 대기방입니다.", "UTF-8"));
 			else{
 				sql = "delete from room_list "  //1인 경우 방삭제
 					+ "where (1, room_no, cap_nm) = (select count(room_no), max(room_no), '"+name+"' "
 					+ "from member_nm where room_no = '"+room_no+"')"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
 				pstmt.close(); //con.close();
 				//방장이 나가는 경우 방장승계
 				sql = "select a.mbr_nm, b.cap_nm from member_nm a, room_list b where rownum=1 and a.room_no=b.room_no "
 					+ "and 1 < (select count(*) from member_nm where room_no = '"+room_no+"') and mbr_nm != '"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				String cap_nm="", mbr_nm="";
 				if(rs.next()) {
 					mbr_nm = rs.getString(1); cap_nm = rs.getString(2);
-					rs.close(); pstmt.close();} //con.close();
+					rs.close(); pstmt.close();} 
 				if(name.equals(cap_nm))	changeCap(name, "/cap " + mbr_nm);
 				if(s.equals("1")) sendAllMsg(name, "님이 "+ room_nm +" 방에서 퇴장하셨습니다.");
 				
 				sql = "update member_nm set room_no = 0 where mbr_nm = '"+name+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				//방장이 나가는 경우 강퇴자 삭제
 				sql = "delete from out_list where cap_nm = '"+name+"'"; 
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 			}
 		}catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -900,7 +859,6 @@ public class MultiServer {
 					   + "from member_nm b, room_list a "
 					   + "where b.mbr_nm='"+name+"' and (to_char(a.room_no)='"+str[1]+"' or a.room_nm='"+str[1]+"')";
 				
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int	my_no=0, chk_no=1, room_no=0, out_no=-99;
@@ -908,9 +866,9 @@ public class MultiServer {
 			if(rs.next()) { 	
 					passwd = rs.getString(1); room_nm=rs.getString(2); my_no=rs.getInt(3); 
 					room_no = rs.getInt(4); out_no=rs.getInt(5); chk_no=rs.getInt(6);
-					rs.close(); pstmt.close();} //con.close();}
+					rs.close(); pstmt.close();} 
 			else {	clientMap.get(name).println(URLEncoder.encode("방 이름을 확인하세요.", "UTF-8"));
-					rs.close(); pstmt.close(); //con.close();
+					rs.close(); pstmt.close(); 
 					return;}
 			if(room_no==out_no) {clientMap.get(name).println(URLEncoder.encode("강퇴당한 방입니다.", "UTF-8")); return;}	
 			if(my_no > 0) {
@@ -926,10 +884,9 @@ public class MultiServer {
 			sql = "update member_nm "
 					+ "set room_no = (select room_no from room_list where to_char(room_no)='"+str[1]+"' "
 					+ "or room_nm = '"+str[1]+"') where mbr_nm = '"+name+"'"; 
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			int uCnt = pstmt.executeUpdate();
-			pstmt.close(); //con.close();	
+			pstmt.close(); 
 			if(uCnt ==1) sendAllMsg(name, "님이 "+ room_nm +" 방에 입장하셨습니다.");				
 		}catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -947,13 +904,12 @@ public class MultiServer {
 					+ "||decode(room_no, (select room_no from member_nm where mbr_nm='"+name+"'),'-입장','')"
 					+ "from room_list a  order by room_no";
 		try {
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) { 	clientMap.get(name).print(URLEncoder.encode(rs.getString(1)+"\t", "UTF-8"));}		
 			if(rs.getRow()==0) 	clientMap.get(name).println(URLEncoder.encode("현재 개설된 대화방이 없습니다.", "UTF-8"));
 			else				clientMap.get(name).println();	
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 		} catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}	
@@ -974,29 +930,26 @@ public class MultiServer {
 			String passwd = (str.length==4 ? str[str.length-1].toString() : "");
 
 			String sql = "select count(*) from room_list where room_nm = '"+str[1]+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int cnt =0;
 			rs.next(); 	cnt = rs.getInt(1);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			if(cnt == 0) {
 				sql = "insert into room_list (room_no, room_nm, fix_num, passwd, cap_nm)"
 					+ "values((select nvl(max(room_no),0)+1 from room_list), '"+str[1]+"',"
 					+ "to_number('"+fix_num+"'), '"+passwd+"', '"+name+"')";						 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				int uCnt = pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				if(uCnt ==1) {
 					clientMap.get(name).println(URLEncoder.encode(str[1] + "방이 만들어졌습니다.", "UTF-8"));
 					sql = "update member_nm "
 							+ "set room_no = (select room_no from room_list where room_nm='"+str[1]+"') "
 							+ "where mbr_nm='"+name+"'";  
-					//con = ConnectionPool.getConnection();
 					pstmt = con.prepareStatement(sql);
 					pstmt.executeUpdate();
-					pstmt.close(); //con.close();
+					pstmt.close(); 
 					clientMap.get(name).println(URLEncoder.encode(str[1] + "방에 입장 하셨습니다.", "UTF-8"));
 				}
 			}
@@ -1011,17 +964,15 @@ public class MultiServer {
 		try {
 			String sql = "select rownum, to_number(black_f)  from member_nm " 
 						+"where mbr_nm = '"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) { 	check[0] = rs.getInt(1); check[1] = rs.getInt(2);
-			rs.close(); pstmt.close();} //con.close();
+			rs.close(); pstmt.close();} 
 			if(check[0]==0) {
 				sql = "insert into member_nm(mbr_nm) values('"+name+"')"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -1054,13 +1005,12 @@ public class MultiServer {
 	public void waitlist(String name) {
 		String sql =  "select mbr_nm from member_nm where room_no=0 and  black_f='0'";
 		try {
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			String str = "";
 			int cnt=0;
 			while(rs.next()) { 	str = str + rs.getString(1) + ", "; cnt++;}
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			clientMap.get(name).println(URLEncoder.encode("현재 대기실입니다("+cnt+"명).", "UTF-8"));
 			if(!str.equals("")) clientMap.get(name).println(URLEncoder.encode("["+str.substring(0, str.length()-2) + "]", "UTF-8"));			
 		} catch (SQLException | UnsupportedEncodingException e) {
@@ -1091,27 +1041,24 @@ public class MultiServer {
 				clientMap.get(name).println(URLEncoder.encode("Usage: /blk 차단자이름", "UTF-8"));
 				return;}
 			String sql = "select count(*) from block_list where mbr_nm='"+name+"' and blk_nm='"+s1[1]+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int cnt = 0;
 			rs.next(); 	cnt = rs.getInt(1);
-			rs.close(); pstmt.close(); //con.close();
+			rs.close(); pstmt.close(); 
 			
 			if(cnt==0) {
 				sql = "insert into block_list values('"+name+"', '"+s1[1]+"')";
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				clientMap.get(name).println(URLEncoder.encode(s1[1] + "와의 대화를 차단합니다.", "UTF-8"));
 			}
 			else {
 				sql = "delete from block_list where mbr_nm='"+name+"' and blk_nm='"+s1[1]+"')";
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				pstmt.executeUpdate();
-				pstmt.close(); //con.close();
+				pstmt.close(); 
 				clientMap.get(name).println(URLEncoder.encode(s1[1] + "와의 차단을 해제합니다.", "UTF-8"));	
 			}
 		}catch(SQLException | UnsupportedEncodingException e) {
@@ -1122,20 +1069,17 @@ public class MultiServer {
 	public void deleteMbr(String name) {
 		try {
 			String sql = "delete from member_nm where mbr_nm = '"+name+"' and black_f ='0'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			sql = "delete from block_list where mbr_nm = '"+name+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 			sql = "delete from van_word where mbr_nm='"+name+"'";
-			//con = ConnectionPool.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.executeUpdate();
-			pstmt.close(); //con.close();
+			pstmt.close(); 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -1150,38 +1094,33 @@ public class MultiServer {
 				clientMap.get(name).println(URLEncoder.encode("Usage: /ban 금칙어", "UTF-8"));
 				return;}
 			String sql = "select count(*) from van_word where mbr_nm != '$system$' and word='"+str[1]+"'"; 
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			int cnt = 0;
-			rs.next(); 	cnt = rs.getInt(1);	rs.close(); pstmt.close(); //con.close();
+			rs.next(); 	cnt = rs.getInt(1);	rs.close(); pstmt.close(); 
 			if(cnt > 0) {
 				clientMap.get(name).println(URLEncoder.encode(str[1] + "는 이미 서버금칙어입니다.", "UTF-8"));
 			}
 			else{
 				sql = "select count(*) from van_word where mbr_nm = '"+name+"' and word='"+str[1]+"'"; 
-				//con = ConnectionPool.getConnection();
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				int cnt1 = 0;
-				rs.next(); 	cnt1 = rs.getInt(1); rs.close(); pstmt.close(); //con.close();
+				rs.next(); 	cnt1 = rs.getInt(1); rs.close(); pstmt.close(); 
 				if(cnt1 == 0) {
 					sql = "insert into van_word values('"+name+"','"+str[1]+"')";  
-					//con = ConnectionPool.getConnection();
 					pstmt = con.prepareStatement(sql);
 					pstmt.executeUpdate();
-					pstmt.close(); //con.close();
+					pstmt.close(); 
 					clientMap.get(name).println(URLEncoder.encode(str[1] + "는 금칙어에 포함됩니다.", "UTF-8"));
 				}
 				else {
 					sql = "delete from van_word where mbr_nm='"+name+"' and word='"+str[1]+"'";  
-					//con = ConnectionPool.getConnection();
 					pstmt = con.prepareStatement(sql);
 					pstmt.executeUpdate();
-					pstmt.close(); //con.close();
+					pstmt.close(); 
 					clientMap.get(name).println(URLEncoder.encode(str[1] + "는 금칙어에서 해제합니다.", "UTF-8"));
 				}
-				//con.close();
 			}
 		} catch (SQLException | UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -1202,11 +1141,10 @@ public class MultiServer {
 			String sql = "select nvl(blk_nm,' '), b.room_no, c.room_no "
 					+	 "from block_list a, member_nm b, member_nm c "
 					+	 "where a.mbr_nm(+)=b.mbr_nm and b.mbr_nm='"+s1[1]+"' and c.mbr_nm='"+name+"'";
-			//Connection con = ConnectionPool.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {  	blk_nm=rs.getString(1); toNo=rs.getInt(2); myNo=rs.getInt(3);
-								rs.close(); pstmt.close();} //con.close();}
+								rs.close(); pstmt.close();} 
 			else { 	clientMap.get(name).println(URLEncoder.encode("상대방 이름을 확인하세요.", "UTF-8"));
 					return;}
 			if(!(name.equals(blk_nm)) && myNo == toNo) {

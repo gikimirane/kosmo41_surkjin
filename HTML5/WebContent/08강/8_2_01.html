@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+		
+		#wrap{
+			width:800px;
+			margin:0 auto;
+		}
+		#header{
+			boder-bottom:1px solid #cccccc;
+		}
+		#content a{
+			text-decoration:none;
+		}
+		#content a:link::after{
+			content: ' - ' attr(href);
+		}
+		#footer ul{
+			overflow:hidden;
+			border:2px solid #cccccc;
+		}
+		#footer ul li{
+			list-style:none;
+		}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<h1>weelkly connect website</h1>
+		</div>
+		
+		<div id="content">
+			<ul>
+				<li><a href="http://www.naver.com" target="_blank">네이버</a></li>
+				<li><a href="http://www.daum.net" target="_blank">다음</a></li>
+				<li><a href="http://www.yahoo.com" target="_blank">야후</a></li>
+				<li><a href="http://www.google.com" target="_blank">구글</a></li>	
+			</ul>
+		</div>
+		<div id="footer">
+			<ul>
+				<li><img src="https://oic.skplanent.com/front/common/footer_img.jpg"></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
