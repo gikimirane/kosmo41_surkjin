@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>04-05</title>
+</head>
+<body>
+	<p id="p">마우스를 올려 보세요</p>
+	<button onclick="f(event)">클릭하세요</button>
+	<script>
+		function f(e) { 
+			alert(e.type); 
+		}
+		document.getElementById("p").onmouseover = f;
+	</script>
+</body>
+</html>

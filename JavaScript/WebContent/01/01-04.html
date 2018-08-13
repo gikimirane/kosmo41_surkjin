@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>01-04</title>
+</head>
+<body>
+	<h3>링크의 href에 자바스크립트 작성</h3>
+	<hr>
+	<a href="javascript:alert('클릭하셨어요?')">
+	클릭해보세요</a>
+<br><p>
+<script>
+	var ret = prompt("이름을 입력하세요","예:홍길동");
+	if(ret==null){
+		//취소버튼이나 닫은 경우
+		document.writeln("A");
+	}
+	else if(ret==""){
+		//문자열 입력없이 확인 누른 경우
+		document.writeln("B");
+	}
+	else{
+		//ret에 사용자가 입력한 문자열
+		document.writeln("C" + ret);
+	}
+</script>
+</body>
+</html>

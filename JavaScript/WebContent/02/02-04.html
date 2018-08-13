@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>02-04</title>
+	<script>
+		function pr(msg, arr) { 
+			document.write(msg + arr.toString()	+ "<br>"); }
+	</script>
+</head>
+<body>
+	<h3>객체의 메소드 활용</h3>
+	<hr>
+	<script>
+		var a = new Array("황", "김", "이");
+		var b = new Array("박");
+		var c;
+	
+		pr("배열 a = ", a);
+		pr("배열 b = ", b);
+		document.write("<hr>");
+		document.write("<br>");
+		c = a.concat(b); // c는 a와 b를 연결한 새 배열
+		pr("c = a.concat(b)후 c = ", c);
+		pr("c = a.concat(b)후 a = ", a);
+		document.write("<br>");
+		c = a.join("##"); // c는 배열 a를 연결한 문자열
+		pr("c = a.join() 후 c = ", c);
+		pr("c = a.join() 후 a = ", a);
+		document.write("<br>");
+		c = a.reverse(); // a.reverse()로 a 자체 변경. c는 배열
+		pr("c= a.reverse() 후 c = ", c);
+		pr("c= a.reverse() 후 a = ", a);
+		document.write("<br>");
+		c = a.slice(1, 2); // c는 새 배열
+		pr("c= a.slice(1, 2) 후 c = ", c);
+		pr("c= a.slice(1, 2) 후 a = ", a);
+		document.write("<br>");
+		
+		//c = a.join("");
+		c = a.join("").substr(1, 1); // c는 새 배열
+		pr("c= a.substr(1, 1) 후 c = ", c);
+		pr("c= a.substr(1, 1) 후 a = ", a);
+		document.write("<br>");
+		
+		c = a.sort(); // a.sort()는 a 자체 변경. c는 배열
+		pr("c= a.sort() 후 c = ", c);
+		pr("c= a.sort() 후 a = ", a);
+		document.write("<br>");
+		c = a.toString(); 
+		document.write("a.toString() : " + c); // c 는 문자열
+	</script>
+</body>
+</html>

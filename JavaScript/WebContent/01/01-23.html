@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>01-23</title>
+<script>
+	function evalParseIntIsNaN() {
+		var res = eval("2*3+4*6"); 
+		document.write("eval(\"2*3+4*6\")는 " + res + "<br>");
+		
+		var m = parseInt(res);
+		document.write("parseInt(\"30\")는 " + m + "<br>");
+		
+		var n = parseInt("0x30");
+		document.write("parseInt(\"0x30\")는 " + n + "<br><br>");
+
+		n = parseInt("hello");
+		if(isNaN(n)) 
+			document.write("hello는 숫자가 아닙니다.");
+	}
+</script>
+</head>
+<body>
+	<h3>eval(), parseInt(), insNaN()</h3>
+	<hr>
+	<script>
+	evalParseIntIsNaN();
+	</script>
+</body>
+</html>
