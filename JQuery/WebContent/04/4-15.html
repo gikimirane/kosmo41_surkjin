@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-15</title>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+<script>
+	$(document).ready(function() {
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		
+		$(canvas).toggle(function (event){
+		}, function(event){
+		});
+	});
+</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="300">
+	</canvas>
+</body>
+</html>

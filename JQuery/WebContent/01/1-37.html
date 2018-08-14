@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>1-37</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+	<script>
+		$(document).ready(function() {
+			var object = {name: 'RintIanTta'};
+			$.extend(object, {
+				gender: 'Male',
+				part: 'Second Guitar'
+			});
+			
+			var output = '';
+			$.each(object, function(key, item) {
+				output += key + ':' + item + '\n';
+			});
+			alert(output);
+		});
+	</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2-13</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').each(function() {
+			if ($(this).is('.select')){
+				$(this).css('background', 'Orange');
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<h1 class="select">Header-0</h1>
+	<h1>Header-1</h1>
+	<h1 class="select">Header-2</h1>
+</body>
+</html>

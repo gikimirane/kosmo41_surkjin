@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-42</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$(window).scroll(function(){
+			var scrollH = $(window).scrollTop() + $(window).height();
+			var docuH = $(document).height();
+			
+			if(scrollH == docuH) {
+				for (var i=0; i<10; i++){
+					$('<h1>Infinite Scroll</h1>').appendTo('body');
+				}
+			}
+		});
+	});
+	
+	$(document).ready(function (){
+		for (var i=0; i<20; i++){
+			$('<h1>Infinite Scroll</h1>').appendTo('body');
+		}
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

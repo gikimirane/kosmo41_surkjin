@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-04</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').bind('click', function() {
+			$(this).html(function (item, html) {
+				return html + '+';
+			});
+		});
+		
+		$('h1').bind({
+			mouseenter: function() { $(this).addClass('reverse');},
+			mouseleave: function() { $(this).removeClass('reverse');}
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>Header-0</h1>
+	<h1>Header-1</h1>
+	<h1>Header-2</h1>
+</body>
+</html>

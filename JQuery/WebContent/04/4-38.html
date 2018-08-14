@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-38</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function(event) {
+		$('textarea').keyup(function (){
+			var inLen = $(this).val().length;
+			var remain = 150 - inLen;
+			$('h1').html(remain);
+			
+			if (remain >= 0){
+				$('h1').css('color', 'Black');
+			} else{
+				$('h1').css('color', 'Red');
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<div>
+		<p>지금 내 생각을 </p>
+		<h1>150</h1>
+		<textarea cols="70" rows="5"></textarea>
+	</div>
+</body>
+</html>

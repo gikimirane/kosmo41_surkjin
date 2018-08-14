@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-29</title>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+<script>
+$(document).ready(function() {
+	$('h1').live('click', function(){
+		var leng = $('h1').length;
+		var targetHTML = $(this).html();
+		$('#wrap').append('<h1>' + leng + ' - ' + targetHTML + '</h1>');
+	});
+});
+</script>
+</head>
+<body>
+	<div id="wrap">
+		<h1>Header</h1>
+	</div>
+</body>
+</html>

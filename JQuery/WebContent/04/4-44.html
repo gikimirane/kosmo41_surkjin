@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-44</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#my_form').submit(function(event){
+			var name = $('#name').val();
+			var pswd = $('#pswd').val();
+			
+			alert(name + ' : ' + pswd);
+			
+			event.preventDefault();
+		});
+	});
+</script>	
+</head>
+<body>
+	<form id="my_form">
+		<table>
+			<tr>
+				<td>이름: </td>
+				<td><input type="text" name="name" id="name"/></td>
+			</tr>
+			<tr>
+				<td>비밀번호: </td>
+				<td><input type="password" name="pswd" id="pswd"/></td>
+			</tr>
+		</table>
+		<input type="submit" value="제출"/>
+	</form>
+</body>
+</html>

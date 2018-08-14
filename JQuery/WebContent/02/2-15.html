@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2-15</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	var xml = '';
+	xml += '<friends>';
+	xml += '	<friends>';
+	xml += '		<name>연하진</name>';
+	xml += '		<language>Ruby</language>';
+	xml += '	</friends>';
+	xml += '<friends>';
+	xml += '	<friends>';
+	xml += '		<name>윤명월</name>';
+	xml += '		<language>Basic</language>';
+	xml += '	</friends>';
+	xml += '	<friends>';
+	xml += '		<name>윤하린</name>';
+	xml += '		<language>C#</language>';
+	xml += '	</friends>';
+	
+	$(document).ready(function() {
+		var xmlDoc = $.parseXML(xml);
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

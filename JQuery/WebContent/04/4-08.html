@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4-08</title>
+<style>
+	.reverse {
+		background: Black;
+		color: White;
+	}
+</style>
+<script src="http://code.jquery.com/jquery-1.7.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').hover(function() {
+			$(this).addClass('reverse');
+		}, function(){
+			$(this).removeClass('reverse');
+		});
+		
+		$('h1').toggle(function() {
+			$(this).html(function (index, html){
+				return '*' + html;
+			});
+		}, function(){
+			$(this).html(function (index, html){
+				return html + '*';
+			});
+		}, function(){
+			$(this).html(function (index, html){
+				return html.substring(1, html.lenght-1);
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>Header-0</h1>
+	<h1>Header-1</h1>
+	<h1>Header-2</h1>
+</body>
+</html>

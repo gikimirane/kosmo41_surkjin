@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>1-27</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		var array = [
+			{name:'Google', link:'http://google.com'},
+			{name:'Naver', link:'http://naver.com'},
+			{name:'Daum', link:'http://daum.net'}
+		];
+		$.each(array, function(index, item){
+			var output ='';
+			output += '<a href="' + item.link + '">';
+			output += '<h1>' + item.name + '</h1>';
+			output += '</a>';
+			document.body.innerHTML += output;
+		});
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>
