@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>6-05</title>
+
+</head>
+<body>
+<script>
+	var request = new XMLHttpRequest();
+	request.open('GET', '/jquery/data.html', false);
+	request.send();
+	document.body.innerHTML += request.responseText;
+</script>	
+</body>
+</html>

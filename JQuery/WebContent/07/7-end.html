@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>7-end</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	function form_check() {
+		submit_ajax();
+	}
+
+	function submit_ajax() {
+		var vName1 = document.getElementById('name').value;
+		alert("aaa: " + vName1);
+		var vName2 = $('name').val();
+		alert("bbb: " + vName2);
+		
+		var qStr1 = $("form[name=testForm]").serialize();
+		alert(qStr1);
+		var qStr2 = jQuery("#testForm").serialize();
+		alert(qStr2);
+		var qStr3 = $("#testForm").serialize();
+		alert(qStr3);
+		
+		$.ajax({
+			url  : '/jquery/data.html',
+			type : 'GET',
+			data : qStr3,
+			//dataType : 'json',
+			error : function (xhr, status, error){
+				alert(error);
+			},
+			success : function (json){
+				alert(json)
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+	<form name="testForm" id="testForm">
+		이름 <input type="text" name="name" id="name" value="Hong Gil-Dong" /> <br>
+		아이디 <input type="text" name="id" id="id" value="123456789" /> <br><p>
+		
+ 		<input type="button" value="Ajax 폼 전송" onclick="form_check()" />
+ 	</form>
+ 	
+</body>
+</html>

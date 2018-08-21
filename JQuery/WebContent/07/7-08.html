@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>7-08</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$.getJSON('/jquery/data.json', function (data){
+			$.each(data, function (key, value){
+				$('body').append('<h1>' + value.name + ' : ' + value.price + '</h1>');
+			});
+		});
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>5-03</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').toggle(function() {
+			$(this).next().hide('slow');
+			}, function() {
+				$(this).next().show('slow');
+		});
+	});
+</script>	
+</head>
+<body>
+	<h1>OPEN & CLOSE</h1>
+	<div>
+		<h1>Loreum ipsum</h1>
+		<p>Loreum ipsum...............</p>
+	</div>
+	<h1>OPEN & CLOSE</h1>
+	<div>
+		<h1>Loreum ipsum</h1>
+		<p>Loreum ipsum..assllkdlsl</p>
+	</div>
+</body>
+</html>

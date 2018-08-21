@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>7-10</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url: '/jquery/data.xml',
+			success: function (data){
+				$(data).find('product').each(function(){
+					$(this).find('name').text();
+					$(this).find('price').text();
+				});
+			}
+		});
+	});
+</script>
+</head>
+<body>
+</body>
+</html>

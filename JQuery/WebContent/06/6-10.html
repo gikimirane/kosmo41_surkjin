@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>6-10</title>
+</head>
+<body>
+<script>
+	function createRequest(){
+		try{
+			return new XMLHttpRequest();
+		} catch(exception){
+			var versions = [
+				'Msxml2.XMLHTTP.6.0',
+				'Msxml2.XMLHTTP.5.0',
+				'Msxml2.XMLHTTP.4.0',
+				'Msxml2.XMLHTTP.3.0',
+				'Msxml2.XMLHTTP',
+				'Microsoft.XMLHTTP'
+			];
+			for (var i=0; i<versions.length; i++){
+				try{
+					return new ActiveXObject(versions[i]);
+				} catch(e){}
+			}
+		}
+	}
+	
+	var request = new createRequest();
+	request.open('GET', '/jquery/data.html', false);
+	var prevDate = new Date();
+	request.send();
+	var nowDate = new Date();
+	
+	alert(nowDate - preDate);
+	//document.body.innerHTML += request.responseText;
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>7-05</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url: '/jquery/data.html',
+			type: 'GET',
+			data: {
+				name: 'test',
+				region: 'test'
+			},
+			success: function (data){
+				$('body').append(data);
+			}
+		});
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>5-13</title>
+<style>
+	div {
+		width: 50px; height: 50px;
+		background-color: orange;
+	}
+</style>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('div').click(function() {
+			var w = $(this).css('width');
+			var h = $(this).css('height');
+		});
+	});
+</script>	
+</head>
+<body>
+	<div></div>
+</body>
+</html>

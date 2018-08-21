@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>6-27</title>
+</head>
+<body>
+<script>
+	function createRequest(){
+		try{
+			return new XMLHttpRequest();
+		} catch(exception){
+			var versions = [
+				'Msxml2.XMLHTTP.6.0',
+				'Msxml2.XMLHTTP.5.0',
+				'Msxml2.XMLHTTP.4.0',
+				'Msxml2.XMLHTTP.3.0',
+				'Msxml2.XMLHTTP',
+				'Microsoft.XMLHTTP'
+			];
+			for (var i=0; i<versions.length; i++){
+				try{
+					return new ActiveXObject(versions[i]);
+				} catch(e){}
+			}
+		}
+	}
+	
+	var request = new createRequest();
+	request.onreadystatechange = function (event){
+		if(request.readyState == 4){
+			if(request.status == 200){
+				var xml = response.responseXML;
+				
+				var names = xm.getElementsByTagName('name');
+				var prices = xml.getElementsByTagName('price');
+				for(var i=0; i<names.length; i++){
+					var name = names[i].childNodes[0].nodeValue;
+					var price = prices[i].childNodes[0].nodeValue;
+					doucument.body.innerHTML += '<h1>' + name + '</h1>';
+					doucument.body.innerHTML += '<h1>' + price + '</h1>';
+				}
+			};
+		};	
+	};
+
+	document.getElementById('delete').onclick = function() {
+		
+		var request = createRequest();
+		request.open('DEKETE', '/jquery/products/0', false);
+		request.send();
+		document.getElementById('output').value = request.responseText;
+	};
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>5-20</title>
+<style>
+	div {
+		width: 100px; height: 100px;
+		background-color: orange;
+		position: relative;
+	}
+</style>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('button').click(function() {
+			var html = $(this).html();
+			var evalText = "$('div')." + html;
+			eval(evalText);
+		});
+		
+		setInterval(function() {
+			$('div').animate({
+				left: '500'
+			}, 2000).animate({
+				left: '0'
+			}, 2000);
+		}, 2000);
+	});
+</script>	
+</head>
+<body>
+	<button>stop()</button>
+	<button>stop(true)</button>
+	<button>stop(false, true)</button>
+	<button>stop(true, true)</button>
+	<div></div>
+</body>
+</html>

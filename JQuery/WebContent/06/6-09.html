@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>6-09</title>
+</head>
+<body>
+<script>
+	function createRequest(){
+		var request;
+		try{
+			request = new XMLHttpRequest();
+		} catch(exception){
+			try{
+				request = new ActiveXObject('Msxml2.XMLHTTP');
+			} catch(innerException){
+				request = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+		}
+		return request;
+	}
+	
+	var request = new createRequest();
+	request.open('GET', '/jquery/data.html', false);
+	request.send();
+	document.body.innerHTML += request.responseText;
+</script>
+</body>
+</html>
