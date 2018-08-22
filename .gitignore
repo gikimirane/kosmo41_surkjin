@@ -99,3 +99,6 @@ Java/ch32/src.txt
 *.txt
 *.dat
 *.bin
+*.MF
+*.policy
+*.properties

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>calculate</title>
+<script>
+	$(document).ready(function (){
+		$('#num1').keyup(function (){
+			alert("aaaaaaaaaaaa");
+		});
+	});
+</script>
+</head>
+<body>
+<body>
+
+	<form action="CalEx" method="post">
+		첫번째수 : <input type="text" name="num1" id="num1" size=10><br/>
+		두번째수 : <input type="text" name="num2" id="num2" size=10><br/>
+		
+		계산 :	<input type="radio" name="cals" value="add" checked="checked">더하기
+			<input type="radio" name="cals" value="sub" >빼기
+			<input type="radio" name="cals" value="mul">곱하기
+			<input type="radio" name="cals" value="div">나누기<br/>
+		
+			<br/>
+			<input type="submit" value="결과보기">
+	</form>
+	
+</body>
+</html>
