@@ -13,11 +13,11 @@
 
 	function submit_ajax() {
 		
-		var qStr = $("#LoginProcess").serialize();
+		var queryStr = $("#LoginProcess").serialize();
 		$.ajax({
 			url  : '/Jsp19_2/LoginProcess',
 			type : 'POST',
-			data : qStr,
+			data : queryStr,
 			dataType : 'json',
 			success : function (json){
 				var results = eval(json);

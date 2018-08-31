@@ -31,12 +31,12 @@
 
 	function submit_ajax() {
 		
-		var qStr = $("#ModifyProcess").serialize();
+		var queryStr = $("#ModifyProcess").serialize();
 		
 		$.ajax({
 			url  : '/Jsp19_2/ModifyProcess',
 			type : 'POST',
-			data : qStr,
+			data : queryStr,
 			dataType : 'json',
 			success : function (json){
 				var results = eval(json);

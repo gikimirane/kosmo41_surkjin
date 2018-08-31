@@ -13,12 +13,12 @@
 
 	function submit_ajax() {
 		
-		var qStr = $("#JoinProcess").serialize();
+		var queryStr = $("#JoinProcess").serialize();
 		
 		$.ajax({
 			url  : '/Jsp19_2/JoinProcess',
 			type : 'POST',
-			data : qStr,
+			data : queryStr,
 			dataType : 'json',
 			success : function (json){
 				var results = eval(json);
