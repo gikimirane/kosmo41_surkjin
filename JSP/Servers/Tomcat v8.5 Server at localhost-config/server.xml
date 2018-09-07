@@ -149,7 +149,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="WebSocketEx" path="/WebSocketEx" reloadable="true" source="org.eclipse.jst.jee.server:WebSocketEx"/><Context docBase="Jsp27" path="/Jsp27" reloadable="true" source="org.eclipse.jst.jee.server:Jsp27"/><Context docBase="BootStrapEx" path="/BootStrapEx" reloadable="true" source="org.eclipse.jst.jee.server:BootStrapEx"/></Host>
+      <Context docBase="WebSocketEx" path="/WebSocketEx" reloadable="true" source="org.eclipse.jst.jee.server:WebSocketEx"/><Context docBase="BootStrapEx" path="/BootStrapEx" reloadable="true" source="org.eclipse.jst.jee.server:BootStrapEx"/><Context docBase="Jsp27" path="/Jsp27" reloadable="true" source="org.eclipse.jst.jee.server:Jsp27"/><Context docBase="Jsp28" path="/Jsp28" reloadable="true" source="org.eclipse.jst.jee.server:Jsp28"/><Context docBase="Jsp25_3" path="/Jsp25_3" reloadable="true" source="org.eclipse.jst.jee.server:Jsp25_3"/><Context docBase="GoogleLogin" path="/GoogleLogin" reloadable="true" source="org.eclipse.jst.jee.server:GoogleLogin"/><Context docBase="FaceboolLogin" path="/FaceboolLogin" reloadable="true" source="org.eclipse.jst.jee.server:FaceboolLogin"/><Context docBase="NaverLogin" path="/NaverLogin" reloadable="true" source="org.eclipse.jst.jee.server:NaverLogin"/></Host>
     </Engine>
   </Service>
 </Server>

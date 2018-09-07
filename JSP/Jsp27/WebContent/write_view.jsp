@@ -4,11 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <title>입력</title>
 <script type="text/javascript" src="./naver_editor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script>
@@ -19,22 +14,19 @@
 </script>
 </head>
 <body>
-<div class="container">
- <div class="col-sm-10">
-<table class="table table-bordered" >
-<thead class="thead-light" >
+	<table width="700" cellpadding="0" cellspacing="0" border="1">
 		<form name="write_form" action="write.do" method="post">
 			<tr>
-				<th> 이름 </th>
+				<td> 이름 </td>
 				<td> <input type="text" name="bName" size="50"></td>
 			</tr>
 			<tr>
-				<th> 제목 </th>
+				<td> 제목 </td>
 				<td> <input type="text" name="bTitle" size="50"></td>
 			</tr>
 			<tr>
-				<th> 내용 </th>
-				<td> <textarea id="ir1" name="bContent" rows="15" column="120"></textarea></td>
+				<td> 내용 </td>
+				<td> <textarea id="ir1" name="bContent" rows="10" column="100"></textarea></td>
 				
 				<script type="text/javascript">
 					var oEditors = [];
@@ -47,17 +39,12 @@
 				</script>
 			</tr>
 			<tr>
-				<th colspan="2">
-					<a href="JavaScript:form_check();">입력</a> &nbsp;&nbsp;&nbsp;
+				<td colspan="2">
+					<input type="submit" value="입력" onclick="JavaScript:form_check();"> &nbsp;&nbsp;
 					<a href="list.do">목록보기</a>
-				</th>
+				</td>
 			</tr>	
 		</form>
-		</thead>
 	</table>
-	</div>
-	</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>
