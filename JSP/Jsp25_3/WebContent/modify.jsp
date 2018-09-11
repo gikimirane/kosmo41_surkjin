@@ -26,7 +26,7 @@
 		메일 : <input type="text" name="eMail" size="20" value="<%= dto.geteMail() %>"><br/>
 		주소 : <input type="text" name="address" size="50" value="<%= dto.getAddress() %>"><br/><p>
 		<input type="button" value="수정" onclick="updateInfoConfirm()" />&nbsp;&nbsp;&nbsp;
-		<input type="reset" value="취소" onclick="javascript:window.location='main.jsp'">
+		<input type="reset" value="취소" onclick="javascript:window.location='main.jsp'"/>
 	</form>
 </body>
 </html>

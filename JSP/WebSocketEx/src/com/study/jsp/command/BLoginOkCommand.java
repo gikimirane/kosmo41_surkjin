@@ -52,6 +52,7 @@ public class BLoginOkCommand implements BCommand {
 				session.setAttribute("id", id);
 				session.setAttribute("name", name);
 				session.setAttribute("ValidMem", "yes");
+				//dao.updateLogin(id, -1, 0);
 				response.sendRedirect("client.jsp");
 			}
 	 	}

@@ -8,7 +8,7 @@ public class BDto {
 	String bName;
 	String bTitle;
 	String bContent;
-	Timestamp bDate;
+	String bDate;
 	int bHit;
 	int bGroup;
 	int bStep;
@@ -21,7 +21,7 @@ public class BDto {
 		this.bName = bName;
 		this.bTitle = bTitle;
 		this.bContent = bContent;
-		this.bDate = bDate;
+		this.bDate = bDate.toString().substring(0, 10);
 		this.bHit = bHit;
 		this.bGroup = bGroup;
 		this.bStep = bStep;
@@ -52,11 +52,11 @@ public class BDto {
 	public void setbContent(String bContent) {
 		this.bContent = bContent;
 	}
-	public Timestamp getbDate() {
+	public String getbDate() {
 		return bDate;
 	}
 	public void setbDate(Timestamp bDate) {
-		this.bDate = bDate;
+		this.bDate = bDate.toString().substring(0, 10);
 	}
 	public int getbHit() {
 		return bHit;

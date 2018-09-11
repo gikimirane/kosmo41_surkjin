@@ -9,6 +9,7 @@ import com.study.jsp.command.BJoinOkCommand;
 import com.study.jsp.command.BListCommand;
 import com.study.jsp.command.BLoginOkCommand;
 import com.study.jsp.command.BModifyCommand;
+import com.study.jsp.command.BModifyMemberCommand;
 import com.study.jsp.command.BReplyCommand;
 import com.study.jsp.command.BReplyViewCommand;
 import com.study.jsp.command.BWriteCommand;
@@ -60,13 +61,14 @@ public class FrontController extends HttpServlet {
 		if(session.getAttribute("curPage") != null) {
 			curPage = (int)session.getAttribute("curPage");
 		}
+		String board = (String)request.getParameter("board");
 		
 		if (com.equals("/write_view.do")) {
 			viewPage = "write_view.jsp";
 		} else if (com.equals("/write.do")) {
 			command = new BWriteCommand();
 			command.execute(request, response);
-			viewPage = "list.do";
+			viewPage = "list.do?page="+curPage+"&board="+board;
 		} else if (com.equals("/list.do")) {
 			command = new BListCommand();
 			command.execute(request, response);
@@ -88,7 +90,7 @@ public class FrontController extends HttpServlet {
 		}  else if (com.equals("/delete.do")) {
 			command = new BDeleteCommand();
 			command.execute(request, response);
-			viewPage = "list.do?page="+curPage;
+			viewPage = "list.do?page="+curPage+"&board="+board;
 		} else if (com.equals("/reply_view.do")) {
 			command = new BReplyViewCommand();
 			command.execute(request, response);
@@ -96,7 +98,7 @@ public class FrontController extends HttpServlet {
 		} else if (com.equals("/reply.do")) {
 			command = new BReplyCommand();
 			command.execute(request, response);
-			viewPage = "list.do?page="+curPage;
+			viewPage = "list.do?page="+curPage+"&board="+board;
 		} else if (com.equals("/loginOk.do")) {
 			command = new BLoginOkCommand();
 			command.execute(request, response);
@@ -107,6 +109,11 @@ public class FrontController extends HttpServlet {
 			command.execute(request, response);
 			return;
 			//viewPage = "client.jsp";
+		}else if (com.equals("/modifyMember.do")) {
+			command = new BModifyMemberCommand();
+			command.execute(request, response);
+			return;
+			//viewPage = "client.jsp";modifyMemberOk
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

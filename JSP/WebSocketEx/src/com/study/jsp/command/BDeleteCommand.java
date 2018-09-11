@@ -11,10 +11,9 @@ public class BDeleteCommand implements BCommand {
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 	{
 		String bId = request.getParameter("bId");
+		String brd = request.getParameter("board");
 		
 		BDao dao = BDao.getInstance();
-		dao.delete(bId);
-
+		dao.delete(bId, brd);
 	}
-
 }

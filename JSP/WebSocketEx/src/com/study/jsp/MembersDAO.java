@@ -38,7 +38,7 @@ public class MembersDAO {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "insert into members(id, pw, name, email, address) "+
+		String sql = "insert into members(id, pw, name, email, rdate, address) "+
 				 	 " values (?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -56,8 +56,7 @@ public class MembersDAO {
 			e.printStackTrace();
 		} finally {
 			oraClose(pstmt, con);
-		}
-		
+		}	
 		return ri;
 	}
 
@@ -85,8 +84,7 @@ public class MembersDAO {
 			e.printStackTrace();
 		} finally {
 			oraClose(rs, pstmt, con);
-		}
-		
+		}	
 		return ri;
 	}
 	
@@ -99,7 +97,7 @@ public class MembersDAO {
 		ResultSet rs = null;
 		
 		String sql = "select pw from members where id = ?";
-		
+		System.out.println(id);
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
@@ -124,7 +122,6 @@ public class MembersDAO {
 		} finally {
 			oraClose(rs, pstmt, con);
 		}
-	
 	return ri;
 	}
 	
@@ -159,15 +156,19 @@ public class MembersDAO {
 		return dto;
 	}
 	
-	public void updateLogin(String id, int roomNo) {
+	public void updateLogin(String id, int roomNo, int sqlCd) {
 				
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "update members set room_no=? where id = ?";
-		
+		String[] sql = {  "update members " 
+						+ "set room_no=?, call_f='0', game_f='0', check_f='0', game_val=0, game_cnt=0 "
+						+ "where id = ?",
+						  "update members " 
+						+ "set room_no=?, call_f='0', game_f='0', check_f='0', game_val=0, game_cnt=0 "
+						+ "where call_id = ? and game_f > '0'"};
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql[sqlCd]);
 			pstmt.setInt(1, roomNo);
 			pstmt.setString(2, id);
 			pstmt.executeUpdate();

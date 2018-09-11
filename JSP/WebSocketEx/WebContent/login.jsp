@@ -29,7 +29,7 @@ function submit(){
 	<form name="login_form" class="form-signin" action="loginOk.do" method = "post">
 	 <h1>&nbsp;</h1>
 	 <h1>&nbsp;</h1>
-   	 <h1 class="h3 mb-4 font-weight-normal">Please login In ...</h1>
+   	 <h1 class="h1 mb-4 font-weight-normal">Project #2</h1>
       
       <input type="text" name="id" id="inputLogin" class="form-control" placeholder="아이디" required autofocus 
       		 value="<% if(session.getAttribute("id") != null)

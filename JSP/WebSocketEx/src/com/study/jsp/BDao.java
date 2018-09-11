@@ -30,20 +30,28 @@ public class BDao {
 		return instance;
 	}
 	
-	public void write (String bName, String bTitle, String bContent) {
+	public void write (String bName, String bTitle, String bContent, String brdStr) {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "insert into mvc_board " + 
-					 "(bid, bname, bTitle, bcontent, bgroup, bstep, bindent) " +
-					 " values "+
-					 "(mvc_board_seq.nextval, ?, ?, ?, mvc_board_seq.currval, 0, 0)";
+		String sql1 = "insert into mvc_board " + 
+					 "(board, bid, bname, bTitle, bcontent, bgroup, bstep, bindent) " +
+					 " values ";
+		String[] sql2 = {"(?, mvc_board_seq.nextval, ?, ?, ?, mvc_board_seq.currval, 0, 0)",
+						 "(?, mvc_board_seq2.nextval, ?, ?, ?, mvc_board_seq.currval2, 0, 0)",
+						 "(?, mvc_board_seq3.nextval, ?, ?, ?, mvc_board_seq.currval3, 0, 0)"};
+		String board="";
+		if(brdStr.equals("게시판"))			board = "1";
+		else if(brdStr.equals("공지사항"))	board = "2";
+		else								board = "3";
+		
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bName);
-			pstmt.setString(2, bTitle);
-			pstmt.setString(3, bContent);
+			pstmt = con.prepareStatement(sql1+sql2[Integer.parseInt(board)-1]);
+			pstmt.setString(1, board);
+			pstmt.setString(2, bName);
+			pstmt.setString(3, bTitle);
+			pstmt.setString(4, bContent);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,7 +60,7 @@ public class BDao {
 		}
 	}
 	
-	public ArrayList<BDto> list(int curPage) {
+	public ArrayList<BDto> list(int curPage, String brdStr) {
 		
 		ArrayList<BDto> dtos = new ArrayList<BDto>();
 		Connection con = null;
@@ -62,14 +70,15 @@ public class BDao {
 		String sql = "select * " + 
 					 "from (select rownum num, A.* " +
 					 	   "from (select * from mvc_board " + 
-					 	   		 "order by bgroup desc, bstep asc) A " +
+					 	   		 "where board=? order by bgroup desc, bstep asc) A " +
 					 	   "where rownum <= ?) B " +
 					 "where B.num >= ?";		
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, curPage*listCount);
-			pstmt.setInt(2, (curPage-1)*listCount + 1);
+			pstmt.setString(1, board(brdStr));
+			pstmt.setInt(2, curPage*listCount);
+			pstmt.setInt(3, (curPage-1)*listCount + 1);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int bId = rs.getInt("bId");
@@ -94,17 +103,19 @@ public class BDao {
 		return dtos;
 	}
 	
-	public BpageInfo acticlePage(int curPage) {
+	public BpageInfo acticlePage(int curPage, String brdStr) {
 				
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select count(*) as total from mvc_board";
+		String sql = "select count(*) as total from mvc_board where board=?";
 		int totalCount = 0;	
+		
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board(brdStr));
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				totalCount = rs.getInt("total");
@@ -133,9 +144,9 @@ public class BDao {
 		return pinfo;
 	}
 	
-	public BDto content_view (String strID) {
+	public BDto content_view (String strID, String brdStr) {
 		
-		upHit(strID);
+		upHit(strID, brdStr);
 		
 		BDto dto = null;
 		Connection con = null;
@@ -143,12 +154,13 @@ public class BDao {
 		ResultSet rs = null;
 		
 		String sql = "select * from mvc_board " +
-					 "where bId = ?";
+					 "where bId = ? and board=?";
 		
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(strID));
+			pstmt.setString(2, board(brdStr));
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -173,13 +185,13 @@ public class BDao {
 		return dto;
 	}
 	
-	public void modify (String bId, String bName, String bTitle, String bContent) 
+	public void modify (String bId, String bName, String bTitle, String bContent, String brdStr) 
 	{
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "update mvc_board " + 
-					 "set bName=?, bTitle=?, bContent=? where bId=?";
+					 "set bName=?, bTitle=?, bContent=? where bId=? and board=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
@@ -187,6 +199,7 @@ public class BDao {
 			pstmt.setString(2, bTitle);
 			pstmt.setString(3, bContent);
 			pstmt.setInt(4, Integer.parseInt(bId));
+			pstmt.setString(5, board(brdStr));	
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,16 +208,17 @@ public class BDao {
 		}
 	}
 	
-	public void upHit (String bId) 
+	public void upHit (String bId, String brdStr) 
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "update mvc_board " + 
-					 "set bHit = bHit+1 where bId=?";
+					 "set bHit = bHit+1 where bId=? and board=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(bId));
+			pstmt.setString(2, board(brdStr));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -213,15 +227,16 @@ public class BDao {
 		}
 	}
 	
-	public void delete (String bId) 
+	public void delete (String bId, String brdStr) 
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "delete from mvc_board where bId=?";
+		String sql = "delete from mvc_board where bId=? and board=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(bId));
+			pstmt.setString(2, board(brdStr));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -230,19 +245,20 @@ public class BDao {
 		}
 	}
 	
-	public BDto reply_view (String strID) {
+	public BDto reply_view (String strID, String brdStr) {
 		
 		BDto dto = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select * from mvc_board where bId = ?";
+		String sql = "select * from mvc_board where bId = ? and board=?";
 		
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(strID));
+			pstmt.setString(2, board(brdStr));
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -268,25 +284,28 @@ public class BDao {
 	}
 	
 	public void reply (String bId, String bName, String bTitle, String bContent,
-					   String bGroup, String bStep, String bIndent) {
+					   String bGroup, String bStep, String bIndent, String brdStr) {
 		
-		replyShape(bGroup, bStep);
+		replyShape(bGroup, bStep, brdStr);
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "insert into mvc_board " + 
-					 "(bid, bname, bTitle, bcontent, bgroup, bstep, bindent) " +
-					 " values "+
-					 "(mvc_board_seq.nextval, ?, ?, ?, ?, ?, ?)";
+		String sql1 = "insert into mvc_board " + 
+					 "(board, bid, bname, bTitle, bcontent, bgroup, bstep, bindent) " +
+					 " values ";
+		String[] sql2 = {"(?, mvc_board_seq.nextval, ?, ?, ?, ?, ?, ?)",
+						 "(?, mvc_board_seq2.nextval, ?, ?, ?, ?, ?, ?)",
+						 "(?, mvc_board_seq3.nextval, ?, ?, ?, ?, ?, ?)",};
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql1 + sql2[Integer.parseInt(board(brdStr))]);
 			pstmt.setString(1, bName);
 			pstmt.setString(2, bTitle);
 			pstmt.setString(3, bContent);
 			pstmt.setInt(4, Integer.parseInt(bGroup));
 			pstmt.setInt(5, Integer.parseInt(bStep) + 1);
 			pstmt.setInt(6, Integer.parseInt(bIndent) +1);
+			pstmt.setString(7, board(brdStr));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -295,18 +314,19 @@ public class BDao {
 		}
 	}
 	
-	public void replyShape (String sGroup, String sStep) 
+	public void replyShape (String sGroup, String sStep, String brdStr) 
 	{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "update mvc_board " + 
 					 "set bStep = bStep +1 " + 
-					 "where bGroup = ? and bStep > ?";
+					 "where bGroup = ? and bStep > ? and board=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(sGroup));
 			pstmt.setInt(2, Integer.parseInt(sStep));
+			pstmt.setString(3, board(brdStr));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -333,5 +353,15 @@ public class BDao {
 			e2.printStackTrace();
 		}
 	}
+	
+	public String board(String brdStr) {
+		String board = "";
+		if(brdStr.equals("게시판"))			board = "1";
+		else if(brdStr.equals("공지사항"))	board = "2";
+		else								board = "3";
+		
+		return board;
+	}
+	
 			
 }
