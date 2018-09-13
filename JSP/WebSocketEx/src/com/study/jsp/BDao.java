@@ -40,15 +40,10 @@ public class BDao {
 		String[] sql2 = {"(?, mvc_board_seq.nextval, ?, ?, ?, mvc_board_seq.currval, 0, 0)",
 						 "(?, mvc_board_seq2.nextval, ?, ?, ?, mvc_board_seq.currval2, 0, 0)",
 						 "(?, mvc_board_seq3.nextval, ?, ?, ?, mvc_board_seq.currval3, 0, 0)"};
-		String board="";
-		if(brdStr.equals("게시판"))			board = "1";
-		else if(brdStr.equals("공지사항"))	board = "2";
-		else								board = "3";
-		
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql1+sql2[Integer.parseInt(board)-1]);
-			pstmt.setString(1, board);
+			pstmt = con.prepareStatement(sql1+sql2[Integer.parseInt(board(brdStr))]);
+			pstmt.setString(1, board(brdStr));
 			pstmt.setString(2, bName);
 			pstmt.setString(3, bTitle);
 			pstmt.setString(4, bContent);
@@ -60,25 +55,31 @@ public class BDao {
 		}
 	}
 	
-	public ArrayList<BDto> list(int curPage, String brdStr) {
+	public ArrayList<BDto> list(int curPage, String brdStr, String sch_type, String word) {
 		
 		ArrayList<BDto> dtos = new ArrayList<BDto>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select * " + 
+		String sql1 = "select * " + 
 					 "from (select rownum num, A.* " +
 					 	   "from (select * from mvc_board " + 
-					 	   		 "where board=? order by bgroup desc, bstep asc) A " +
+					 	   		 "where board=? ";
+		String[] sql2 = {		 "and '0'=? ", 
+								 "and bname like ? ", 
+								 "and btitle like ? ",
+								 "and bcontent like ? "};
+		String sql3 = 	   		  "order by bgroup desc, bstep asc) A " +
 					 	   "where rownum <= ?) B " +
 					 "where B.num >= ?";		
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql1+sql2[Integer.parseInt(sch_type)]+sql3);
 			pstmt.setString(1, board(brdStr));
-			pstmt.setInt(2, curPage*listCount);
-			pstmt.setInt(3, (curPage-1)*listCount + 1);
+			pstmt.setString(2, word.equals("0") ? "0":"%"+word+"%");
+			pstmt.setInt(3, curPage*listCount);
+			pstmt.setInt(4, (curPage-1)*listCount + 1);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int bId = rs.getInt("bId");
@@ -103,23 +104,28 @@ public class BDao {
 		return dtos;
 	}
 	
-	public BpageInfo acticlePage(int curPage, String brdStr) {
+	public BpageInfo acticlePage(int curPage, String brdStr, String search, String word) {
 				
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String sql = "select count(*) as total from mvc_board where board=?";
+		System.out.println("page: " + brdStr);
+		String sql1 = "select count(*) as total from mvc_board where board=? ";
+		String[] sql2 = {"and '0'=? ",  "and bname like ? ", 
+						 "and btitle like ? ", "and bcontent like ? "};
 		int totalCount = 0;	
-		
+		System.out.println("word: " + word);
 		try {
+			System.out.println(sql1 + sql2[Integer.parseInt(search)]);
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql1 + sql2[Integer.parseInt(search)]);
 			pstmt.setString(1, board(brdStr));
+			pstmt.setString(2, word.equals("0") ? "0":"%"+word+"%");
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				totalCount = rs.getInt("total");
 			}
+			System.out.println("tocnt: " + totalCount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -185,21 +191,20 @@ public class BDao {
 		return dto;
 	}
 	
-	public void modify (String bId, String bName, String bTitle, String bContent, String brdStr) 
+	public void modify (String bId, String bTitle, String bContent, String brdStr) 
 	{
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "update mvc_board " + 
-					 "set bName=?, bTitle=?, bContent=? where bId=? and board=?";
+					 "set bTitle=?, bContent=? where bId=? and board=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bName);
-			pstmt.setString(2, bTitle);
-			pstmt.setString(3, bContent);
-			pstmt.setInt(4, Integer.parseInt(bId));
-			pstmt.setString(5, board(brdStr));	
+			pstmt.setString(1, bTitle);
+			pstmt.setString(2, bContent);
+			pstmt.setInt(3, Integer.parseInt(bId));
+			pstmt.setString(4, board(brdStr));	
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -298,14 +303,15 @@ public class BDao {
 						 "(?, mvc_board_seq3.nextval, ?, ?, ?, ?, ?, ?)",};
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(sql1 + sql2[Integer.parseInt(board(brdStr))]);
-			pstmt.setString(1, bName);
-			pstmt.setString(2, bTitle);
-			pstmt.setString(3, bContent);
-			pstmt.setInt(4, Integer.parseInt(bGroup));
-			pstmt.setInt(5, Integer.parseInt(bStep) + 1);
-			pstmt.setInt(6, Integer.parseInt(bIndent) +1);
-			pstmt.setString(7, board(brdStr));
+			System.out.println(sql1 + sql2[Integer.parseInt(board(brdStr))]);
+			pstmt = con.prepareStatement(sql1 + sql2[Integer.parseInt(board(brdStr))-1]);
+			pstmt.setString(1, board(brdStr));
+			pstmt.setString(2, bName);
+			pstmt.setString(3, bTitle);
+			pstmt.setString(4, bContent);
+			pstmt.setInt(5, Integer.parseInt(bGroup));
+			pstmt.setInt(6, Integer.parseInt(bStep) + 1);
+			pstmt.setInt(7, Integer.parseInt(bIndent) +1);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -358,7 +364,8 @@ public class BDao {
 		String board = "";
 		if(brdStr.equals("게시판"))			board = "1";
 		else if(brdStr.equals("공지사항"))	board = "2";
-		else								board = "3";
+		else if(brdStr.equals("QnA"))		board = "3";
+		else								board = "0";
 		
 		return board;
 	}

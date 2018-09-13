@@ -19,19 +19,24 @@
 </script>
 </head>
 <body>
+<%		String id = (String)session.getAttribute("id");
+		String name = (String)session.getAttribute("name");
+%>
 <div class="container">
  <div class="col-sm-10">
+ <p>
 <table class="table table-bordered"" >
 <thead class="thead-light" >
 		<form name="reply_form" action="reply.do" method="post">
 			<input type="hidden" name="bId" value="${reply_view.bId}">
+			<input type="hidden" name="bName" value="${name}">
 			<input type="hidden" name="bGroup" value="${reply_view.bGroup}">
 			<input type="hidden" name="bStep" value="${reply_view.bStep}">
 			<input type="hidden" name="bIndent" value="${reply_view.bIndent}">
+			<input type="hidden" name="board"  value="${board}">
 			<tr>
 				<th> 번호 </th>
 				<td> ${reply_view.bId} </td>
-				<input type="hidden" name="board"  value=${board}>
 			</tr>
 			<tr>
 				<th> 조회수 </th>
@@ -39,11 +44,11 @@
 			</tr>
 			<tr>
 				<th> 작성자 </th>
-				<td> <input type="text" name="bName" size="50" value=""></td>
+				<td> ${name}</td>
 			</tr>
 			<tr>
 				<th> 제목 </th>
-				<td> <input type="text" name="bTitle" size="50" value="${reply_view.bTitle} -"></td>
+				<td> <input type="text" name="bTitle" size="50" value=""></td>
 			</tr>
 			<tr>
 				<th> 원문내용 </th>

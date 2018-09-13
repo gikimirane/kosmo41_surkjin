@@ -16,6 +16,7 @@
 		String name = (String)session.getAttribute("name");
 %>
 <div class="container">
+<p>
  <div class="col-sm-10">
 <table class="table table-bordered" >
 <thead class="thead-light" >
@@ -47,7 +48,7 @@
 			<c:if test="${board=='게시판'}">
 				<a href="#" onclick="modify();">수정</a> &nbsp;&nbsp;&nbsp;
 				<a href="#" onclick="delData();">삭제</a> &nbsp;&nbsp;&nbsp;
-				<a href="reply_view.do?bId=${content_view.bId}&board=${board}">답변</a>&nbsp;&nbsp;&nbsp;
+				<a href="reply_view.do?bId=${content_view.bId}&board=${board}">댓글</a>&nbsp;&nbsp;&nbsp;
 			</c:if>
 			<c:if test="${board=='QnA'}">	
 				<a href="#" onclick="delData();">삭제</a> &nbsp;&nbsp;&nbsp;
@@ -58,6 +59,8 @@
 	</tr>	
 	</thead>
 </table>
+</div>
+</div>
 <script>
 	function modify(){
 		var name = "<%= name %>";

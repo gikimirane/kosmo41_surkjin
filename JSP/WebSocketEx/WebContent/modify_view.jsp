@@ -19,6 +19,7 @@
 </script>
 <body>
 <div class="container">
+<p>
  <div class="col-sm-10">
 <table class="table table-bordered" >
 	
@@ -36,7 +37,7 @@
 			</tr>
 			<tr>
 				<th> 작성자 </th>
-				<td> <input id="bName" type="text" name="bName" size="50" value="${content_view.bName}"></td>
+				<td>${content_view.bName} </td>
 			</tr>
 			<tr>
 				<th> 제목 </th>

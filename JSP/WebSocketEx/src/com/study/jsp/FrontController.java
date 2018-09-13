@@ -62,7 +62,7 @@ public class FrontController extends HttpServlet {
 			curPage = (int)session.getAttribute("curPage");
 		}
 		String board = (String)request.getParameter("board");
-		
+		session.setAttribute("board", board);
 		if (com.equals("/write_view.do")) {
 			viewPage = "write_view.jsp";
 		} else if (com.equals("/write.do")) {
