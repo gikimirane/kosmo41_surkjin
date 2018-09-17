@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>구글 아이디로 로그인하기 2</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="http://code.jquery.com/jquery.js"></script>
+<title>구글 아이디로 로그인하기 2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://code.jquery.com/jquery.js"></script>
 
-	<meta name="google-signin-client_id" content="99312446803-1c47skmtp769lsuu24sf1pfii6at9ven.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="99312446803-1c47skmtp769lsuu24sf1pfii6at9ven.apps.googleusercontent.com">
 
-	<script>
+<script>
     function onSignIn(googleUser) {
     	var profile = googleUser.getBasicProfile();
 		$('#my-signin2').css('display', 'none');
@@ -39,10 +39,7 @@
 	        'onfailure': onFailure
         });
     }
-    $(document).reday(function() {
-    	
-    });
-	</script>
+</script>
 
 </head>
 <body>
