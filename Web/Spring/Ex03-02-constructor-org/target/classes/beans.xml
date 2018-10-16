@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hello" class="com.study.spring.Hello">
+		
+		<!-- name -->	
+		
+		<constructor-arg name="name" value="이순신" />
+		<constructor-arg name="nickname" value="강감찬" />
+		<constructor-arg name="printer" ref="printerA" />
+		
+		<!-- index -->
+		<!-- 
+		<constructor-arg index="0" value="이순신" />
+		<constructor-arg index="1" value="강감찬" />
+		<constructor-arg index="2" ref="printerA" />
+		-->
+		<!-- 순서 -->
+		<!--
+		<constructor-arg value="이순신" />
+		<constructor-arg value="강감찬" />
+		<constructor-arg ref="printerA" />
+		-->
+	</bean>
+	<bean id="printerA" class="com.study.spring.PrinterA" />
+	<bean id="printerB" class="com.study.spring.PrinterB" />
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<import resource="classpath:config/beans2.xml" />
+	<bean id="hello" class="com.study.spring.Hello">
+		<property name="name" value="홍길동" />
+		<property name="nickname">
+			<value>전우치</value>
+		</property>
+		<property name="printer" ref="printerA" />
+		<!--
+		<property name="printer">
+			<ref bean="printerB"/>
+		</property>
+		-->
+	</bean>
+
+	<!-- 
+	<bean id="printerA" class="com.study.spring.PrinterA" />
+	<bean id="printerB" class="com.study.spring.PrinterB" />
+	 -->
+</beans>

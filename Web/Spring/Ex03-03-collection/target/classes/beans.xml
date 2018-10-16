@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hello" class="com.study.spring.Hello">
+	
+		<property name = "names">
+			<list>
+				<value>홍길동</value>
+				<value>전우치</value>
+				<value>손오공</value>
+			</list>
+		</property>
+		<property name = "nums">
+			<list>
+				<value>1000</value>
+				<value>2000</value>
+				<value>3000</value>
+			</list>
+		</property>
+		<property name = "ages">
+			<map>
+				<entry key="홍길동" value="30" />
+				<entry key="전우치" value="25" />
+				<entry key="손오공" value="20" />
+			</map>
+		</property>
+	</bean>
+
+</beans>
