@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+<bean id="logAop" class="com.study.spring.LogAop" />
+
+<aop:config>
+	<aop:aspect id="logger" ref="logAop">
+		<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+		<aop:around pointcut-ref="publicM" method="loggerAop"/>
+	</aop:aspect>
+</aop:config>
+
+<aop:config>
+	<aop:aspect id="logger" ref="logAop">
+		<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+		<aop:before pointcut-ref="publicM" method="beforeAdvice"/>
+	</aop:aspect>
+</aop:config>
+
+<aop:config>
+	<aop:aspect id="logger" ref="logAop">
+		<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+		<aop:after pointcut-ref="publicM" method="afterAdvice"/>
+	</aop:aspect>
+</aop:config>
+
+<aop:config>
+	<aop:aspect id="logger" ref="logAop">
+		<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+		<aop:after-returning pointcut-ref="publicM" method="afterReturningAdvice"/>
+	</aop:aspect>
+</aop:config>
+
+<aop:config>
+	<aop:aspect id="logger" ref="logAop">
+		<aop:pointcut expression="within(com.study.spring.*)" id="publicM"/>
+		<aop:after-throwing pointcut-ref="publicM" method="afterThrowingAdvice"/>
+	</aop:aspect>
+</aop:config>
+
+<bean id="student" class="com.study.spring.Student" >
+	<property name="name" value="홍길동" />
+	<property name="age" value="30" />
+</bean>
+<bean id="worker" class="com.study.spring.Worker" >
+	<property name="name" value="전우치"/>
+	<property name="age" value="35"/>
+</bean>
+</beans>
