@@ -9,13 +9,10 @@ public class BpageInfo {
 	int pageCount;
 	int startPage;
 	int endPage;
-	
-	
+
 	public BpageInfo(int totalCount, int listCount, int totalPage, 
 				int curPage, int pageCount, int startPage, int endPage)
 	{
-		super();
-		
 		this.totalCount = totalCount;
 		this.listCount = listCount;
 		this.totalPage = totalPage;
@@ -24,7 +21,6 @@ public class BpageInfo {
 		this.startPage = startPage;
 		this.endPage = endPage;
 	}
-	
 	public int getTotalCount() {
 		return totalCount;
 	}
